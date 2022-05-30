@@ -1,0 +1,44 @@
+﻿@model IEnumerable<MaatJaKaupungit.Models.Kaupungit>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Kaupunkien listaus</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.kaupunginNimi)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.asukasluku)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Maat.maaNimi)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.kaupunginNimi)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.asukasluku)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Maat.maaNimi)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.kaupunkiId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.kaupunkiId })
+        </td>
+    </tr>
+}
+
+</table>

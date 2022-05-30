@@ -1,0 +1,113 @@
+﻿@model MaatJaKaupungit.Models.Kaupungit
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Kaupungit</h4>
+
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <label class="control-label col-md-2">Kaupungin nimi</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.kaupunginNimi, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.kaupunginNimi, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Asukasluku</label>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.asukasluku, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.asukasluku, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Maa</label>
+            <div class="col-md-10">
+
+                @*Alla on itse lisätty nappi (vaikka onkin h2) jolle on annettu id "openMaaForm" johon scriptissä viitataan, ja luokka tyylien takia.
+                    Jos tekisi normaalisti button tagilla, niin se lähettäisi alkuperäisen lomakkeen, koska formin sisällä oleva nappi tekee
+                    tässä ympäristössä näköjään sen*@
+                <h2 id="openMaaForm" class="btn btn-primary">Lisää uusi maa</h2>
+
+                @Html.DropDownList("maaId", null, htmlAttributes: new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(model => model.maaId, "", new { @class = "text-danger" })
+
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@*Alla on itse tehty html "lomake" (vaikka ei olekaan form tagia vaan pelkät inputit), joka on oletuksena piilotettu,
+    mutta scripti muuttaa sen näkyvyyden kun nappia painetaan*@
+
+<div id="lomake" style="width:20%; margin-left:15%;">
+    <input id="nimi" type="text" placeholder="Uuden maan nimi" />
+    <input id="asluku" type="number" placeholder="Asukasluku" />
+    <button id="create" class="btn btn-success">Create</button>
+    <button id="cancel" class="btn btn-warning">Cancel</button>
+</div>
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval") @*Tämä oli jo ennestään täällä*@
+
+    @*Alla varsinainen scripti jonka tein*@
+
+    <script>
+        $(document).ready(function() {
+            $("#lomake").hide()
+
+            $("#openMaaForm").click(function() {
+                $("#lomake").show()
+            })
+
+            $("#cancel").click(function() {
+                $("#lomake").hide()
+            })
+
+            $("#create").click(function () {
+                let nimi = $("#nimi").val()
+                let asluku = $('#asluku').val()
+
+                let url = "CreateMaaFromData"
+
+                let olio = {
+                    maaNimi: nimi,
+                    asukasluku: 222
+                }
+
+                $.post(url, olio,
+                    function (data, status) {
+                        alert("Data: " + data + "\nStatus: " + status)
+                    })
+            })
+        })
+
+    </script>
+
+}

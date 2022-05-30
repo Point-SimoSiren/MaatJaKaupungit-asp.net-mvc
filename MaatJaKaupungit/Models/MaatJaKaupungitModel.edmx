@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="MaatJaKaupungitModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Kaupungit">
+          <Key>
+            <PropertyRef Name="kaupunkiId" />
+          </Key>
+          <Property Name="kaupunkiId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="kaupunginNimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="asukasluku" Type="int" Nullable="false" />
+          <Property Name="maaId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Maat">
+          <Key>
+            <PropertyRef Name="maaId" />
+          </Key>
+          <Property Name="maaId" Type="int" Nullable="false" />
+          <Property Name="maaNimi" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="asukasluku" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Kaupungit_Maat">
+          <End Role="Maat" Type="Self.Maat" Multiplicity="1" />
+          <End Role="Kaupungit" Type="Self.Kaupungit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maat">
+              <PropertyRef Name="maaId" />
+            </Principal>
+            <Dependent Role="Kaupungit">
+              <PropertyRef Name="maaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MaatJaKaupungitModelStoreContainer">
+          <EntitySet Name="Kaupungit" EntityType="Self.Kaupungit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Maat" EntityType="Self.Maat" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Kaupungit_Maat" Association="Self.FK_Kaupungit_Maat">
+            <End Role="Maat" EntitySet="Maat" />
+            <End Role="Kaupungit" EntitySet="Kaupungit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MaatJaKaupungitModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Kaupungit">
+          <Key>
+            <PropertyRef Name="kaupunkiId" />
+          </Key>
+          <Property Name="kaupunkiId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="kaupunginNimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="asukasluku" Type="Int32" Nullable="false" />
+          <Property Name="maaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Maat" Relationship="Self.FK_Kaupungit_Maat" FromRole="Kaupungit" ToRole="Maat" />
+        </EntityType>
+        <EntityType Name="Maat">
+          <Key>
+            <PropertyRef Name="maaId" />
+          </Key>
+          <Property Name="maaId" Type="Int32" Nullable="false" />
+          <Property Name="maaNimi" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="asukasluku" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Kaupungit" Relationship="Self.FK_Kaupungit_Maat" FromRole="Maat" ToRole="Kaupungit" />
+        </EntityType>
+        <Association Name="FK_Kaupungit_Maat">
+          <End Role="Maat" Type="Self.Maat" Multiplicity="1" />
+          <End Role="Kaupungit" Type="Self.Kaupungit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Maat">
+              <PropertyRef Name="maaId" />
+            </Principal>
+            <Dependent Role="Kaupungit">
+              <PropertyRef Name="maaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="MaatJaKaupungitEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Kaupungit" EntityType="Self.Kaupungit" />
+          <EntitySet Name="Maat" EntityType="Self.Maat" />
+          <AssociationSet Name="FK_Kaupungit_Maat" Association="Self.FK_Kaupungit_Maat">
+            <End Role="Maat" EntitySet="Maat" />
+            <End Role="Kaupungit" EntitySet="Kaupungit" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MaatJaKaupungitModelStoreContainer" CdmEntityContainer="MaatJaKaupungitEntities">
+          <EntitySetMapping Name="Kaupungit">
+            <EntityTypeMapping TypeName="MaatJaKaupungitModel.Kaupungit">
+              <MappingFragment StoreEntitySet="Kaupungit">
+                <ScalarProperty Name="kaupunkiId" ColumnName="kaupunkiId" />
+                <ScalarProperty Name="kaupunginNimi" ColumnName="kaupunginNimi" />
+                <ScalarProperty Name="asukasluku" ColumnName="asukasluku" />
+                <ScalarProperty Name="maaId" ColumnName="maaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Maat">
+            <EntityTypeMapping TypeName="MaatJaKaupungitModel.Maat">
+              <MappingFragment StoreEntitySet="Maat">
+                <ScalarProperty Name="maaId" ColumnName="maaId" />
+                <ScalarProperty Name="maaNimi" ColumnName="maaNimi" />
+                <ScalarProperty Name="asukasluku" ColumnName="asukasluku" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
