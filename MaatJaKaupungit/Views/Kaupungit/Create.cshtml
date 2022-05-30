@@ -105,6 +105,11 @@
                     function (data, status) {
                         alert("Data: " + data + "\nStatus: " + status)
                     })
+
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2000
+                )
             })
         })
 
