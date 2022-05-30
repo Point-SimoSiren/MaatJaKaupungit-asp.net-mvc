@@ -23,20 +23,24 @@ namespace MaatJaKaupungit.Controllers
         }
 
         // POST: Metodi jolla luodaan uusi maa vaikka ollaankin kaupungit kontrollerissa
-        // Tämä metodi käsittelee json dataa
+        // Tämä metodi vastaanottaa olion jossa on kaksi kenttää. Idtä ei kuulukaan yleensä antaa
         public string CreateMaaFromData(Maat maa)
         {
             try
             {
+                // Jostain syystä ohjelma vaati että annetaan id mutta tietokannan kumminkin olisi tarkoitus luoda id itse,
+                // eli ei kannata koodissa generoida jos ohjelma vaan taipuu siihen että annetaan tieto ilman id:tä.
                 Random generoituId = new Random();
                 int uusiId = generoituId.Next(1000, 500000);
-                maa.maaId = generoituId.Next();
+                maa.maaId = uusiId;
+
                 db.Maat.Add(maa);
                 db.SaveChanges();
                 return "Luotu uusi maa" + maa.maaNimi;
             }
             catch (Exception ex)
             {
+                // Tässä vähän säädetty errorien esitystapaa
                 return ex.GetType().Name + " Tarkempaa tietoa: " +  ex.Message;
             }
         }
